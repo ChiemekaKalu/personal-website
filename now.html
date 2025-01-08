@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where's Chiemeka? | Current Status</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Mapbox CSS and JS -->
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.9.1/mapbox-gl.js'></script>
+    <!-- Spotify Web Playback SDK -->
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#experience">Experience</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="now.html" class="active">Now</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="now" class="now-section">
+        <h2 class="section-title">Where am I now?</h2>
+        
+        <div class="status-container">
+            <div class="location-container">
+                <div id="map" style="width: 100%; height: 400px;"></div>
+                <div class="current-location">
+                    <h3>Current Location</h3>
+                    <p id="location-text">Loading...</p>
+                    <p id="activity-text">Loading...</p>
+                </div>
+            </div>
+
+            <div class="spotify-container">
+                <h3>Recently Played</h3>
+                <div class="spotify-embed">
+                    <iframe 
+                        style="border-radius:12px" 
+                        src="https://open.spotify.com/embed/user/chiemekakalu/recenttracks?utm_source=generator" 
+                        width="100%" 
+                        height="352" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Chiemeka Kalu. All rights reserved.</p>
+    </footer>
+
+    <script src="now.js"></script>
+    <script src="spotify-now.js"></script>
+</body>
+</html>

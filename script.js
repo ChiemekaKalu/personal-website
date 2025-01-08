@@ -1,7 +1,7 @@
 // Initialize EmailJS
 (function() {
     // Replace with your EmailJS public key
-    emailjs.init("YOUR_PUBLIC_KEY");
+    emailjs.init("m5wM5wWm3XTfjUmeV");
 })();
 
 // Smooth scrolling for navigation links
@@ -21,9 +21,22 @@ if (contactForm) {
         e.preventDefault();
         
         // Get form values
-        const name = this.querySelector('input[type="text"]').value;
-        const email = this.querySelector('input[type="email"]').value;
-        const message = this.querySelector('textarea').value;
+        const name = this.querySelector('input[name="name"]').value;
+        const email = this.querySelector('input[name="email"]').value;
+        const message = this.querySelector('textarea[name="message"]').value;
+
+        // Validate form fields
+        if (!name || !email || !message) {
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'error-message';
+            errorMessage.textContent = 'Please fill in all fields';
+            contactForm.insertBefore(errorMessage, this.querySelector('button[type="submit"]'));
+            
+            setTimeout(() => {
+                errorMessage.remove();
+            }, 5000);
+            return;
+        }
 
         // Show loading state
         const submitButton = this.querySelector('button[type="submit"]');
@@ -32,20 +45,56 @@ if (contactForm) {
         submitButton.disabled = true;
 
         // Send email using EmailJS
-        emailjs.send("default_service", "template_id", {
+        const templateParams = {
             from_name: name,
             reply_to: email,
-            message: message
-        })
+            message: message,
+            to_name: "Chiemeka"
+        };
+        
+        console.log('Sending email with params:', templateParams);
+        console.log('Service ID:', "service_rnoeqqu");
+        console.log('Template ID:', "template_3envigm");
+        
+        emailjs.send(
+            "service_rnoeqqu",
+            "template_3envigm",
+            templateParams
+        )
         .then(() => {
             // Show success message
-            alert('Thank you for your message! I will get back to you soon.');
+            const successMessage = document.createElement('div');
+            successMessage.className = 'success-message';
+            successMessage.textContent = 'Thank you for your message! I will get back to you soon.';
+            
+            // Insert at the top of the form
+            contactForm.insertBefore(successMessage, contactForm.firstChild);
+            
+            // Scroll the message into view
+            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
             // Clear form
-            this.reset();
+            contactForm.reset();
+            
+            // Remove success message after 5 seconds
+            setTimeout(() => {
+                successMessage.remove();
+            }, 5000);
         })
         .catch((error) => {
-            console.error('Error:', error);
-            alert('Oops! There was an error sending your message. Please try again later.');
+            console.error('EmailJS Error:', error);
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'error-message';
+            errorMessage.textContent = 'Oops! There was an error sending your message. Please try again later.';
+            
+            // Make sure we're inserting before the submit button
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            contactForm.insertBefore(errorMessage, submitBtn);
+            
+            // Remove error message after 5 seconds
+            setTimeout(() => {
+                errorMessage.remove();
+            }, 5000);
         })
         .finally(() => {
             // Reset button state

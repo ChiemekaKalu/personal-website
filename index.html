@@ -16,7 +16,8 @@
                 <li><a href="#about">About</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#skills">Skills</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="now.html">Now</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
@@ -171,23 +172,17 @@
 
     <section id="contact">
         <h2 class="section-title">Contact Me</h2>
-        <div class="success-message" id="success-message">
-            Message sent successfully! I'll get back to you soon.
-        </div>
-        <div class="error-message" id="error-message">
-            Oops! Something went wrong. Please try again.
-        </div>
         <form id="contact-form">
             <div class="form-group">
-                <input type="text" id="name" required placeholder=" ">
+                <input type="text" id="name" name="name" required placeholder=" ">
                 <label for="name">Your Name</label>
             </div>
             <div class="form-group">
-                <input type="email" id="email" required placeholder=" ">
+                <input type="email" id="email" name="email" required placeholder=" ">
                 <label for="email">Your Email</label>
             </div>
             <div class="form-group">
-                <textarea id="message" required placeholder=" "></textarea>
+                <textarea id="message" name="message" required placeholder=" "></textarea>
                 <label for="message">Your Message</label>
             </div>
             <button type="submit">Send Message</button>
