@@ -78,3 +78,27 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+// Scroll animation for about section
+const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('fade-in');
+            observer.unobserve(entry.target); // Stop observing once animation is triggered
+        }
+    });
+}, observerOptions);
+
+// Start observing about section paragraphs
+document.addEventListener('DOMContentLoaded', () => {
+    const aboutParagraphs = document.querySelectorAll('#about p');
+    aboutParagraphs.forEach((p, index) => {
+        observer.observe(p);
+    });
+});
