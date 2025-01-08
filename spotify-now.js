@@ -83,7 +83,7 @@ function showErrorState() {
     container.innerHTML = `
         <h3>Currently Playing</h3>
         <div class="now-playing-info error-state">
-            <div class="track-info">
+            <div class="spotify-track-info">
                 <p class="error-message">Unable to fetch Spotify data</p>
                 <p class="error-description">This feature requires authentication with Spotify.</p>
             </div>
@@ -98,7 +98,7 @@ function updateNowPlayingUI(data, isCached = false) {
         container.innerHTML = `
             <h3>Currently Playing</h3>
             <div class="now-playing-info">
-                <div class="track-info">
+                <div class="spotify-track-info">
                     <p>Nothing playing right now</p>
                 </div>
             </div>
@@ -119,7 +119,7 @@ function updateNowPlayingUI(data, isCached = false) {
         <h3>Currently Playing ${isCached ? '<span class="cached-indicator">(Last played)</span>' : ''}</h3>
         <div class="now-playing-info">
             ${albumArt ? `<img src="${albumArt}" alt="${track.name} album art" class="album-art">` : ''}
-            <div class="track-info">
+            <div class="spotify-track-info">
                 <p class="track-name">${track.name}</p>
                 <p class="artist-name">${artistNames}</p>
                 <div class="progress-bar">
