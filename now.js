@@ -4,47 +4,74 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY2hpZW1la2FrYWx1IiwiYSI6ImNtNW9mYzVqajAwZDMyb
 // Schedule data - times are in 24-hour format
 const schedule = [
     {
+        startTime: '14:00',
+        endTime: '15:50',
+        location: {
+            lat: 34.0741783,
+            lng: -118.4400048,
+            name: 'Bunche Hall 3170',
+            activity: 'Linguistics 165C - Semantics II',
+            description: 'Class with Sharvit, Y.'
+        },
+        days: ['Monday', 'Wednesday']
+    },
+    {
+        startTime: '10:00',
+        endTime: '11:50',
+        location: {
+            lat: 34.0703,
+            lng: -118.4400048,
+            name: 'Bunche Hall 3157',
+            activity: 'Linguistics 185A - Computational Linguistics I',
+            description: 'Class with Hunter, T.'
+        },
+        days: ['Tuesday', 'Thursday']
+    },
+    {
+        startTime: '16:00',
+        endTime: '17:50',
+        location: {
+            lat: 34.07444763183594,
+            lng: -118.4391860961914,
+            name: 'Public Affairs Building 1234',
+            activity: 'Linguistics 119A - Applied Phonology',
+            description: 'Class with Zukoff, S.'
+        },
+        days: ['Tuesday', 'Thursday']
+    },
+    {
         startTime: '09:00',
-        endTime: '10:30',
+        endTime: '09:50',
         location: {
-            lat: 34.0689,
-            lng: -118.4452,
-            name: 'UCLA - Engineering VI',
-            activity: 'In class - CS 131',
-            description: 'Learning about Programming Languages'
-        }
+            lat: 34.0739423,
+            lng: -118.441868,
+            name: 'Rolfe Hall 3134',
+            activity: 'Linguistics 119A Discussion',
+            description: 'Discussion with Erickson, J.'
+        },
+        days: ['Friday']
     },
     {
-        startTime: '11:00',
-        endTime: '12:30',
+        startTime: '09:00',
+        endTime: '09:50',
         location: {
-            lat: 34.0689,
-            lng: -118.4452,
-            name: 'UCLA - Boelter Hall',
-            activity: 'Working on projects',
-            description: 'Building cool stuff'
-        }
-    },
-    {
-        startTime: '13:00',
-        endTime: '14:30',
-        location: {
-            lat: 34.0689,
-            lng: -118.4452,
-            name: 'UCLA - Powell Library',
-            activity: 'Studying',
-            description: 'Deep in the books'
-        }
+            lat: 34.0729095,
+            lng: -118.4412957,
+            name: 'Haines Hall A82',
+            activity: 'Linguistics 185A Lab',
+            description: 'Lab with Chang, K.W.'
+        },
+        days: ['Friday']
     }
 ];
 
 // Default location when not in schedule
 const defaultLocation = {
-    lat: 34.0689,
-    lng: -118.4452,
-    name: 'UCLA',
-    activity: 'Probably sleeping 😴',
-    description: 'Everyone needs rest!'
+    lat: 34.065094,
+    lng: -118.448021,
+    name: 'Gayley Court',
+    activity: 'Probably in bed, working on something or doing something fun elsewhere! 😁',
+    description: 'Home'
 };
 
 // Map initialization function
@@ -52,7 +79,7 @@ function initializeMap() {
     try {
         const map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mapbox/light-v10',
+            style: 'mapbox://styles/mapbox/streets-v12', // Changed to satellite view
             center: [defaultLocation.lng, defaultLocation.lat],
             zoom: 14,
             interactive: true // Allow map interaction
@@ -72,35 +99,44 @@ function initializeMap() {
             closeOnClick: false
         });
 
-        marker.setLngLat([defaultLocation.lng, defaultLocation.lat])
-            .addTo(map);
-
         // Function to get current location based on time
         function getCurrentLocation() {
             const now = new Date();
             const currentTime = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+            const day = now.toLocaleString('en-US', { weekday: 'long' });
+            
+            console.log('Current time:', currentTime);
+            console.log('Current day:', day);
             
             // Find matching schedule item
             const currentSchedule = schedule.find(item => 
-                currentTime >= item.startTime && currentTime <= item.endTime
+                currentTime >= item.startTime && currentTime <= item.endTime && item.days.includes(day)
             );
             
-            return currentSchedule ? currentSchedule.location : defaultLocation;
+            const location = currentSchedule ? currentSchedule.location : defaultLocation;
+            console.log('Selected location:', location);
+            return location;
         }
 
         // Update location and related UI elements
         function updateLocation() {
             const location = getCurrentLocation();
+            console.log('Updating to location:', location);
             
-            // Update marker and map
-            marker.setLngLat([location.lng, location.lat]);
-            map.flyTo({
+            // Force map update
+            map.jumpTo({
                 center: [location.lng, location.lat],
-                zoom: 15,
-                speed: 0.5
+                zoom: 17 // Increased zoom for better satellite view
             });
+            
+            // Update marker
+            if (!marker.getLngLat()) {
+                marker.setLngLat([location.lng, location.lat]).addTo(map);
+            } else {
+                marker.setLngLat([location.lng, location.lat]);
+            }
 
-            // Update popup content
+            // Update popup content and position
             popup.setLngLat([location.lng, location.lat])
                 .setHTML(`
                     <h3>${location.name}</h3>
@@ -115,27 +151,42 @@ function initializeMap() {
             if (locationText && activityText) {
                 locationText.textContent = location.name;
                 activityText.textContent = location.activity;
-                
-                // Remove loading class if present
                 locationText.classList.remove('loading');
                 activityText.classList.remove('loading');
             }
         }
 
-        // Show/hide popup on marker events
-        marker.getElement().addEventListener('mouseenter', () => {
-            popup.addTo(map);
-        });
-        
-        marker.getElement().addEventListener('mouseleave', () => {
-            popup.remove();
-        });
+        // Wait for map to load before initializing marker and events
+        map.on('load', () => {
+            // Get initial location
+            const initialLocation = getCurrentLocation();
+            console.log('Initial location:', initialLocation);
+            
+            // Force initial position
+            map.jumpTo({
+                center: [initialLocation.lng, initialLocation.lat],
+                zoom: 17
+            });
+            
+            // Add marker
+            marker.setLngLat([initialLocation.lng, initialLocation.lat])
+                  .addTo(map);
 
-        // Initial update
-        updateLocation();
+            // Show/hide popup on marker events
+            marker.getElement().addEventListener('mouseenter', () => {
+                popup.addTo(map);
+            });
+            
+            marker.getElement().addEventListener('mouseleave', () => {
+                popup.remove();
+            });
 
-        // Update every minute
-        setInterval(updateLocation, 60000);
+            // Initial update
+            updateLocation();
+
+            // Update every minute
+            setInterval(updateLocation, 60000);
+        });
 
         // Handle map errors
         map.on('error', (e) => {
