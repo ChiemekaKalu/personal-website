@@ -5,9 +5,9 @@ const blogPosts = [
         title: "Welcome to My Blog!",
         date: "2025-01-08",
         category: "blogAndUpdates",
-        excerpt: "First post on my new personal website, discussing the tech stack and features...",
+        excerpt: "Welcome to my new personal website! I'm excited to share my thoughts, projects, and experiences with you. In this first post, I want to discuss the tech stack and features I've implemented.",
         content: "Full blog post content here...",
-        imageUrl: "path/to/image.jpg"
+        imageUrl: "images/blog/welcome-post.jpg"
     },
     // Add more blog posts here
 ];
