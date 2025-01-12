@@ -6,6 +6,7 @@ __pycache__/
 # Flask
 instance/
 *.db
+app.py  # Contains sensitive configuration
 
 # Development files
 setup_admin.py
