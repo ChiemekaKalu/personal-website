@@ -8,17 +8,12 @@ instance/
 *.db
 app.py  # Contains sensitive configuration
 
-# Development files
-setup_admin.py
-import_post.py
-create_admin.py
-check_db.py
-generate_static.py
-callback.html
-
 # Environment
 .env
 .venv
 env/
 venv/
 ENV/
+
+# Misc
+callback.html
