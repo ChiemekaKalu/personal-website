@@ -93,7 +93,7 @@ def get_posts():
         ],
         extension_configs={
             'markdown.extensions.codehilite': {
-                'css_class': 'codehilite',
+                'css_class': 'highlight',
                 'noclasses': False,
                 'use_pygments': True
             }
@@ -124,7 +124,7 @@ def get_post(slug):
         ],
         extension_configs={
             'markdown.extensions.codehilite': {
-                'css_class': 'codehilite',
+                'css_class': 'highlight',
                 'noclasses': False,
                 'use_pygments': True
             }
@@ -159,7 +159,7 @@ def view_post(slug):
         ],
         extension_configs={
             'markdown.extensions.codehilite': {
-                'css_class': 'codehilite',
+                'css_class': 'highlight',
                 'noclasses': False,
                 'use_pygments': True
             }
