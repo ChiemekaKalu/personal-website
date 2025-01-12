@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticating...</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .message {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="message">
+        <h2>Connecting to Spotify...</h2>
+        <p>You'll be redirected in a moment.</p>
+    </div>
+    <script>
+        // Get the access token from URL fragment
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        const token = params.get('access_token');
+        
+        if (token) {
+            // Store the token and expiration
+            localStorage.setItem('spotify_token', token);
+            localStorage.setItem('spotify_token_timestamp', Date.now());
+            
+            // Redirect back to the Now page
+            window.location.href = '/now.html';
+        } else {
+            document.querySelector('.message').innerHTML = `
+                <h2>Authentication Failed</h2>
+                <p>Unable to connect to Spotify. <a href="/now.html">Click here to try again</a>.</p>
+            `;
+        }
+    </script>
+</body>
+</html>
