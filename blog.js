@@ -1,52 +1,81 @@
 // Blog posts data
-const blogPosts = [
-    {
-        id: 1,
-        title: "Welcome to My Blog!",
-        date: "2025-01-08",
-        category: "blogAndUpdates",
-        excerpt: "Welcome to my new personal website! I'm excited to share my thoughts, projects, and experiences with you. In this first post, I want to discuss the tech stack and features I've implemented.",
-        content: "Full blog post content here...",
-        imageUrl: "images/blog/welcome-post.jpg"
-    },
-    // Add more blog posts here
-];
+const blogPosts = [];
 
 // Function to create blog post HTML
 function createBlogPostElement(post) {
+    const date = new Date(post.date_posted).toLocaleDateString();
     const categoryDisplayNames = {
         'blogAndUpdates': 'Blog & Updates',
         'projects': 'Projects',
         'music': 'Music',
         'coolOrRandom': 'Cool & Random'
     };
-
+    
     return `
         <article class="blog-post" data-category="${post.category}">
-            <div class="blog-post-image">
-                <img src="${post.imageUrl}" alt="${post.title}">
-            </div>
             <div class="blog-post-content">
                 <span class="post-category">${categoryDisplayNames[post.category] || post.category}</span>
-                <span class="post-date">${new Date(post.date).toLocaleDateString()}</span>
                 <h3>${post.title}</h3>
-                <p>${post.excerpt}</p>
-                <a href="blog/${post.id}" class="read-more">Read More</a>
+                <span class="post-date">${date}</span>
+                <div class="post-excerpt">${post.content.split('\n')[0]}</div>
+                <a href="static/blog/${post.slug}/index.html" class="read-more">Read More →</a>
             </div>
         </article>
     `;
 }
 
-// Function to display blog posts
-function displayBlogPosts(category = 'all') {
+// Function to fetch and display blog posts
+async function displayBlogPosts(category = 'all') {
     const blogContainer = document.querySelector('.blog-posts');
-    const filteredPosts = category === 'all' 
-        ? blogPosts 
-        : blogPosts.filter(post => post.category === category);
-    
-    blogContainer.innerHTML = filteredPosts
-        .map(post => createBlogPostElement(post))
-        .join('');
+    console.log('Blog container element:', blogContainer);
+    try {
+        const posts = await fetchPosts();
+        console.log('Posts to display:', posts);
+        // Filter posts by category
+        const filteredPosts = category === 'all' 
+            ? posts 
+            : posts.filter(post => post.category === category);
+            
+        if (filteredPosts && filteredPosts.length > 0) {
+            blogContainer.innerHTML = filteredPosts
+                .map(post => createBlogPostElement(post))
+                .join('');
+            console.log('Posts displayed successfully');
+        } else {
+            console.log('No posts found');
+            blogContainer.innerHTML = '<p>No blog posts found.</p>';
+        }
+    } catch (error) {
+        console.error('Error displaying posts:', error);
+        blogContainer.innerHTML = '<p>Error loading blog posts. Please try again later.</p>';
+    }
+}
+
+// Function to fetch posts from static JSON
+async function fetchPosts() {
+    try {
+        console.log('Fetching posts from static JSON...');
+        const response = await fetch('static/blog/posts.json');
+        console.log('JSON Response:', response);
+        const posts = await response.json();
+        console.log('Posts received:', posts);
+        return posts;
+    } catch (error) {
+        console.error('Error fetching posts:', error);
+        return [];
+    }
+}
+
+// Function to fetch a single post from API
+async function fetchPost(slug) {
+    try {
+        const response = await fetch(`http://localhost:5000/api/posts/${slug}`);
+        const post = await response.json();
+        return post;
+    } catch (error) {
+        console.error('Error fetching post:', error);
+        return null;
+    }
 }
 
 // Set up category filters

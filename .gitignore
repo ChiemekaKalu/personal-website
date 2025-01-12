@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Flask
+instance/
+*.db
+
+# Development files
+app.py
+setup_admin.py
+import_post.py
+create_admin.py
+check_db.py
+generate_static.py
+callback.html
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
