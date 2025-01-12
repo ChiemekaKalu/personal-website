@@ -104,48 +104,85 @@ if (contactForm) {
     });
 }
 
-// Add active class to nav items on scroll
-const sections = document.querySelectorAll('section');
-const navLinks = document.querySelectorAll('nav ul li a');
-
-window.addEventListener('scroll', () => {
-    let current = '';
-    
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        
-        if (window.pageYOffset >= sectionTop - 60) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href').slice(1) === current) {
-            link.classList.add('active');
-        }
-    });
-});
-
-// Scroll animation for about section
-const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-};
-
-const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('fade-in');
-            observer.unobserve(entry.target); // Stop observing once animation is triggered
-        }
-    });
-}, observerOptions);
-
-// Start observing about section paragraphs
 document.addEventListener('DOMContentLoaded', () => {
+    // Mobile Navigation
+    const navToggle = document.querySelector('.mobile-nav-toggle');
+    const primaryNav = document.querySelector('#primary-navigation');
+
+    console.log('Nav elements:', { navToggle, primaryNav }); // Debug log
+
+    if (navToggle && primaryNav) {
+        navToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const isVisible = primaryNav.getAttribute('data-visible') === 'true';
+            primaryNav.setAttribute('data-visible', !isVisible);
+            navToggle.setAttribute('aria-expanded', !isVisible);
+            
+            console.log('Menu clicked:', { isVisible, newState: !isVisible }); // Debug log
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (primaryNav.getAttribute('data-visible') === 'true' &&
+                !navToggle.contains(e.target) && 
+                !primaryNav.contains(e.target)) {
+                primaryNav.setAttribute('data-visible', 'false');
+                navToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+
+        // Close menu when clicking a link
+        primaryNav.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                primaryNav.setAttribute('data-visible', 'false');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+    }
+
+    // Add active class to nav items on scroll
+    const sections = document.querySelectorAll('section');
+    const navLinks = document.querySelectorAll('nav ul li a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            
+            if (window.pageYOffset >= sectionTop - 60) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').slice(1) === current) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // Scroll animation for about section
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('fade-in');
+                observer.unobserve(entry.target); 
+            }
+        });
+    }, observerOptions);
+
+    // Start observing about section paragraphs
     const aboutParagraphs = document.querySelectorAll('#about p');
     aboutParagraphs.forEach((p, index) => {
         observer.observe(p);

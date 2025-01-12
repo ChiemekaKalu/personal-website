@@ -13,7 +13,15 @@
 <body>
     <header>
         <nav>
-            <ul>
+            <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+                <span class="sr-only">Menu</span>
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+            <ul id="primary-navigation">
                 <li><a href="#home" class="nav-link">Home</a></li>
                 <li><a href="#about" class="nav-link">About</a></li>
                 <li><a href="#experience" class="nav-link">Experience</a></li>
