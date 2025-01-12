@@ -1,11 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>New Blog Post</title>
+    <title>Create a New Blog Post</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <style>
+        .action-btn {
+            padding: 0.5em 1em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 1 !important;
+            text-decoration: none;
+            display: inline-block;
+            color: white !important;
+        }
+
+        .post-btn {
+            background: #2ecc40 !important;
+        }
+
+        .post-btn:hover {
+            background: #29a839 !important;
+        }
+
+        .back-btn {
+            background: #0074d9 !important;
+            margin-top: 1em;
+        }
+
+        .back-btn:hover {
+            background: #0056a3 !important;
+        }
+    </style>
 </head>
 <body>
-    <h1>New Blog Post</h1>
+    <h1>Create a New Blog Post</h1>
     <form method="POST">
         <div>
             <label for="title">Title:</label>
@@ -19,8 +48,8 @@
             <label for="content">Content (Markdown):</label>
             <textarea id="content" name="content" rows="20" required></textarea>
         </div>
-        <button type="submit">Create Post</button>
+        <button type="submit" class="action-btn post-btn">Post Blog</button>
     </form>
-    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+    <a href="{{ url_for('admin_dashboard') }}" class="action-btn back-btn">Back to Dashboard</a>
 </body>
 </html>
