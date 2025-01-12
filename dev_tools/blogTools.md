@@ -48,8 +48,8 @@ This one's simpler - it creates the CSS file that makes your code blocks look go
 
 2. **Get to the admin page**
    - Open your browser
-   - Go to `http://localhost:5000/admin`
-   - Log in (you'll need to set up your admin account first if you haven't)
+   - Go to `http://localhost:5000/admin/login`
+   - After logging in, you'll be redirected to the dashboard at `http://localhost:5000/admin/dashboard`
 
 3. **Create your post**
    Hit the "New Post" button and you'll see a form with:
@@ -82,7 +82,8 @@ This one's simpler - it creates the CSS file that makes your code blocks look go
 
 1. **Get to your admin page**
    - Start the server with `python app.py` if it's not running
-   - Go to `http://localhost:5000/admin`
+   - Go to `http://localhost:5000/admin/login`
+   - After logging in, you'll be redirected to the dashboard at `http://localhost:5000/admin/dashboard`
    - Log in
 
 2. **Find and Edit**

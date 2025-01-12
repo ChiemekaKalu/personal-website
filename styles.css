@@ -52,14 +52,13 @@ nav {
     padding: 0 2rem;
     display: flex;
     justify-content: center;
-    align-items: center;
+    position: relative;
 }
 
 nav ul {
     display: flex;
     gap: 2rem;
     list-style: none;
-    justify-content: center;
 }
 
 nav a {
@@ -76,6 +75,90 @@ nav a:hover, nav a.active {
     color: white;
 }
 
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+.mobile-nav-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-nav-toggle {
+        display: block;
+        background: none;
+        border: none;
+        padding: 0.5rem;
+        cursor: pointer;
+        position: absolute;
+        right: 2rem;
+        top: 1rem;
+        z-index: 2000;
+    }
+
+    .hamburger {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .hamburger span {
+        display: block;
+        width: 25px;
+        height: 3px;
+        background: var(--text-primary);
+        transition: var(--transition);
+    }
+
+    nav {
+        justify-content: flex-end;
+    }
+
+    nav ul {
+        position: fixed;
+        inset: 0;
+        background: var(--surface-color);
+        padding: min(30vh, 10rem) 2rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        visibility: hidden;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 350ms ease-out;
+        z-index: 1500;
+    }
+
+    nav ul[data-visible="true"] {
+        visibility: visible;
+        opacity: 1;
+        transform: translateX(0%);
+    }
+
+    .mobile-nav-toggle[aria-expanded="true"] .hamburger span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+    .mobile-nav-toggle[aria-expanded="true"] .hamburger span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobile-nav-toggle[aria-expanded="true"] .hamburger span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+}
+
+main {
+    margin-top: 4rem;
+}
+
 /* Modern Hero Section */
 .hero {
     min-height: 70vh;
@@ -85,7 +168,7 @@ nav a:hover, nav a.active {
     text-align: center;
     background: var(--background-color);
     color: var(--text-primary);
-    padding: 8rem 2rem 4rem;
+    padding: calc(4rem + 2rem) 2rem 4rem;
     position: relative;
 }
 
@@ -163,7 +246,7 @@ nav a:hover, nav a.active {
 
 @media (max-width: 768px) {
     .hero {
-        padding-top: 6rem;
+        padding-top: calc(3.5rem + 1.5rem);
         min-height: auto;
     }
 
