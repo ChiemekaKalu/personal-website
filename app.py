@@ -64,7 +64,7 @@ def new_post():
         db.session.commit()
         
         return redirect(url_for('admin_dashboard'))
-    return render_template('admin/edit_post.html', post=None)
+    return render_template('admin/new_post.html')
 
 @app.route('/admin/post/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -78,6 +78,19 @@ def edit_post(id):
         db.session.commit()
         return redirect(url_for('admin_dashboard'))
     return render_template('admin/edit_post.html', post=post)
+
+@app.route('/admin/delete/<int:id>', methods=['POST'])
+@login_required
+def delete_post(id):
+    post = BlogPost.query.get_or_404(id)
+    try:
+        db.session.delete(post)
+        db.session.commit()
+        flash('Post deleted successfully!', 'success')
+    except Exception as e:
+        db.session.rollback()
+        flash('Error deleting post. Please try again.', 'error')
+    return redirect(url_for('admin_dashboard'))
 
 @app.route('/api/posts')
 def get_posts():
