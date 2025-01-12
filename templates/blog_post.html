@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ post.title }} - Chiemeka Kalu's Blog">
+    <meta name="theme-color" content="#e65100">
+    <title>{{ post.title }} - Chiemeka Kalu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='pygments.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('serve_index') }}#home" class="nav-link">Home</a></li>
+                <li><a href="{{ url_for('serve_index') }}#about" class="nav-link">About</a></li>
+                <li><a href="{{ url_for('serve_index') }}#experience" class="nav-link">Experience</a></li>
+                <li><a href="{{ url_for('serve_index') }}#projects" class="nav-link">Projects</a></li>
+                <li><a href="{{ url_for('serve_index') }}blog.html" class="nav-link active">Blog</a></li>
+                <li><a href="{{ url_for('serve_index') }}now.html" class="nav-link">Now</a></li>
+                <li><a href="{{ url_for('serve_index') }}#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <article class="blog-post-full">
+            <div class="blog-post-header">
+                <h1>{{ post.title }}</h1>
+                <div class="post-meta">
+                    <span class="post-date">{{ post.date_posted.strftime('%B %d, %Y') }}</span>
+                    <span class="post-category">{{ category_display_names.get(post.category, post.category) }}</span>
+                </div>
+            </div>
+
+            <div class="blog-post-content markdown-content">
+                {{ post_content|safe }}
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Chiemeka Kalu. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

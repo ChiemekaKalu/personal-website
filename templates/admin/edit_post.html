@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Blog Post</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        textarea {
+            height: 300px;
+            font-family: monospace;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Blog Post</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="{{ post.title }}" required>
+        </div>
+        <div class="form-group">
+            <label for="slug">URL Slug:</label>
+            <input type="text" id="slug" name="slug" value="{{ post.slug }}" required>
+        </div>
+        <div class="form-group">
+            <label for="category">Category:</label>
+            <select id="category" name="category" required>
+                <option value="blogAndUpdates" {% if post and post.category == 'blogAndUpdates' %}selected{% endif %}>Blog & Updates</option>
+                <option value="projects" {% if post and post.category == 'projects' %}selected{% endif %}>Projects</option>
+                <option value="music" {% if post and post.category == 'music' %}selected{% endif %}>Music</option>
+                <option value="coolOrRandom" {% if post and post.category == 'coolOrRandom' %}selected{% endif %}>Cool & Random</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="content">Content (Markdown):</label>
+            <textarea id="content" name="content" rows="20" required>{{ post.content }}</textarea>
+        </div>
+        <button type="submit">Update Post</button>
+    </form>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+</body>
+</html>

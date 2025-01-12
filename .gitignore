@@ -8,7 +8,6 @@ instance/
 *.db
 
 # Development files
-app.py
 setup_admin.py
 import_post.py
 create_admin.py
