@@ -107,7 +107,7 @@ MIT License - See LICENSE file for details
 
 
 ## current issues
-- can't delete blog posts easily 
+- hamburger menu is broken on static blog pages (still wraps)
 - blog updates must be done from the dev side (could be fixed by making all the blog posts static or by using a real hosted database)
 - various ui issues
 
